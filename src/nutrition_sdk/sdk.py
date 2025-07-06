@@ -1,7 +1,7 @@
 import requests
 from enum import Enum
 
-from .models import Nutrition
+from .models import Fruit
 
 
 HTTP_TIMEOUT_SECONDS = 10
@@ -15,7 +15,7 @@ class NutritionSDK:
 
     class NutritionType(str, Enum):
         PROTEIN = "protein"
-        CARBOHYDRATE = "carbohydrate"
+        CARBOHYDRATE = "carbohydrates"
 
     def get_fruits_information_by_nutrition(
         self, nutrition: NutritionType, max: int = 100, min: int = 0
@@ -25,18 +25,20 @@ class NutritionSDK:
         """
         try:
             response = requests.get(
-                self.api_url + f"/{nutrition}?min={min}&max={max}",
+                self.api_url + f"/{nutrition.value}?min={min}&max={max}",
                 timeout=HTTP_TIMEOUT_SECONDS,
             )
 
             response.raise_for_status()
         except requests.exceptions.ConnectionError as err:
-            raise ValueError("Connection error. Check your network connection")
+            raise ValueError(
+                "Connection error. Check your network connection", str(err)
+            )
         except requests.exceptions.HTTPError as err:
             if err.response.status_code == 404:
+                print(self.api_url)
                 raise ValueError("Resource not found")
             else:
                 raise
 
-        # return response.json()
-        return [Nutrition(**res) for res in response.json()]
+        return [Fruit(**res) for res in response.json()]

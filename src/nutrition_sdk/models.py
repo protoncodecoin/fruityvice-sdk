@@ -5,11 +5,11 @@ class NutritionsDetail(BaseModel):
     calories: int
     fat: float
     sugar: float
-    carbohydates: float
+    carbohydrates: float
     protein: float
 
 
-class Nutrition(BaseModel):
+class Fruit(BaseModel):
     name: str
     id: int
     family: str

@@ -1,5 +1,10 @@
 # Ignore build artifacts
 dist/
 /*.egg-info/
-/__pycache__/
 /build/
+example-release.md
+__pycache__/
+*.py[cod]
+# tests/__pycache__/test_sdk.cpython-312-pytest-8.4.1.pyc
+# src/nutrition_sdk/__pycache__/*.pyc
+# src/nutrition_sdk/__pycache__/sdk.cpython-312.pyc

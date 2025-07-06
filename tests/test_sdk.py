@@ -3,7 +3,7 @@ import responses
 from responses import matchers
 import requests
 
-api_url = "https://example.com"
+api_url = "https://www.fruityvice.com/api/fruit"
 
 
 def test_sdk():
@@ -12,7 +12,7 @@ def test_sdk():
 
 
 @responses.activate
-def test_sdk_get_fruits_information_by_nutriiton():
+def test_sdk_get_fruits_information_by_nutrition():
     responses.add(
         responses.GET,
         api_url + "/carbohydrates?min=0&max=100",
@@ -55,6 +55,15 @@ def test_sdk_get_fruits_information_by_nutriiton():
     )
 
     assert len(fruits_info) == 2
+    assert fruits_info[0].name == "Persimmon"
+    assert fruits_info[0].id == 52
+    assert fruits_info[0].nutritions.calories == 81
+    assert fruits_info[0].nutritions.protein == 0
+
+    assert fruits_info[1].name == "Strawberry"
+    assert fruits_info[1].id == 3
+    assert fruits_info[1].genus == "Fragaria"
+    assert fruits_info[1].order == "Rosales"
 
 
 @responses.activate
@@ -120,5 +129,10 @@ def test_sdk_get_fruits_information_by_nutrition_with_protein():
     )
 
     assert len(result) == 2
-    assert result[0]["name"] == "Persimmon"
-    assert result[0]["id"] == 52
+    assert result[0].name == "Persimmon"
+    assert result[0].id == 52
+    assert result[0].order == "Rosales"
+    assert result[0].family == "Ebenaceae"
+
+    assert result[1].nutritions.sugar == 5.4
+    assert result[1].nutritions.fat == 0.4
